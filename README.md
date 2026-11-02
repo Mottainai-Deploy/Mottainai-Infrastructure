@@ -10,7 +10,7 @@ Infrastructure as code, deployment documentation, and operational runbooks for t
 
 ## Current status
 
-The service allocation is provisional until the mobile-to-API flows, external data services, and demo journey are confirmed. See [deployment matrix](docs/deployment-matrix.md). No AWS resources or credentials are configured here.
+The service allocation is provisional until the mobile-to-API flows, external data services, and demo journey are confirmed. See the [deployment matrix](docs/deployment-matrix.md) and [AWS demo readiness checklist](docs/aws-demo-readiness.md). No AWS resources or credentials are configured here.
 
 ## Layout
 
