@@ -30,4 +30,3 @@ The AWS Terraform entry points currently validate account and region selection o
 - Promote the exact approved artifact from test to official; do not rebuild a different revision for the official account.
 - Keep stateful data services outside ephemeral application containers.
 - Start the official runtime only for the demonstration window unless the owner approves a different schedule.
-

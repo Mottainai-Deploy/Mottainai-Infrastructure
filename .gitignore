@@ -1,0 +1,14 @@
+# Local Terraform files and state
+**/*.tfstate
+**/*.tfstate.*
+**/.terraform/**
+**/terraform.tfvars
+**/terraform.tfvars.json
+**/*.auto.tfvars
+**/*.auto.tfvars.json
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+crash.log
+crash.*.log
