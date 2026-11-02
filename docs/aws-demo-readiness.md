@@ -19,13 +19,21 @@
 - [x] Separate Terraform roots exist for test and official.
 - [x] Terraform currently validates identity/region context only and creates no cloud resources.
 - [x] Motta Hub is live on Render; the owner confirmed `/healthz` returned `{"ok":true}`.
-- [x] Existing deployment responsibility map reviewed against service default branches.
+- [x] Frontend/API integration PR #28 is merged; its default branch now describes configured API-backed routes and includes a QA container with `/healthz`.
+- [x] POS product search PR #25 is merged; the POS API is still documented as a local Windows service.
 - [ ] Confirm AWS Academy restrictions, allowed regions/services, quotas, credit balance/expiry and lab duration in the lab Readme.
 - [ ] Select and document the exact November 6 user journey and map every action to its client, API route and dependency.
 - [ ] Confirm isolated test and official data stores and credentials for each retained service.
+- [ ] Confirm frontend build-time Firebase/API configuration and test-account access.
 - [ ] Confirm health routes, startup commands, container build contexts, CPU/memory and startup latency for each selected runtime.
 - [ ] Confirm who owns each account and can configure least-privilege, short-lived deployment access.
 
+## Merged source changes reviewed
+
+| Repository PR | Merge commit | Effect used in this inventory |
+|---|---|---|
+| [Frontend #28](https://github.com/Mottainai-One/Mottainai-Frontend/pull/28) | `cede09ace5a2dca97e07639e0b6ca4741f49db85` | Web frontend now integrates API-backed routes and documents its container and required configuration. |
+| [POS backend #25](https://github.com/Mottainai-One/Mottainai-POS_back/pull/25) | `6dbe102336e9f0aeb797187324054f6cbf310f59` | Product search contract is in main; keep POS backend local and verify remaining login flow separately. |
 ## Current placement from default branches
 
 | Component | Current decision | Blocker/gate |
@@ -33,24 +41,23 @@
 | Motta Hub | Render only | None for AWS; keep excluded |
 | RPA | GitHub Actions | Confirm schedule/network access is sufficient; do not duplicate |
 | BI | Databricks | Confirm source data refresh aligns with demo |
-| Windows POS frontend/backend | Local POS device | Verify merged local-to-operational API contract |
-| Operational SQL API | AWS candidate only | Confirm selected flow, DB, Firebase and secrets |
+| Admin web frontend | Conditional AWS candidate | Include only for a web-panel demo; configure Firebase/API at build time and validate routes/auth against the operational API |
+| Operational SQL API | AWS candidate only | Confirm selected flow, external database, Firebase and secrets; PR #73 and #7 remain open |
 | AI API | Conditional candidate | Confirm demo need and memory/startup/cost profile |
 | MongoDB/Redis APIs | Conditional candidates | Include only if selected routes consume them and isolated stores exist |
+| Windows POS frontend/backend | Local POS device | PR #25 is merged; verify local backend-to-operational API integration. PR #26 login change remains open and excluded |
 | Customer SQL API | Excluded for now | Main branch is a starter without implemented service contracts |
-| Admin web frontend | Excluded from integrated live demo | Main uses mocks and lacks production authentication; ignore open integration PR until merged |
 
 ## Open PRs excluded from this inventory
 
 The following PR content is intentionally not used until merged:
 
-- [Frontend #28](https://github.com/Mottainai-One/Mottainai-Frontend/pull/28) — operational API integration.
-- [POS backend #26](https://github.com/Mottainai-One/Mottainai-POS_back/pull/26) — login route contract.
+- [POS backend #26](https://github.com/Mottainai-One/Mottainai-POS_back/pull/26) — login/terminal route contract.
 - [Operational API #73](https://github.com/Mottainai-One/Mottainai-Api-SQL-Operacional/pull/73) — POS approvals/audit flow.
 - [Operational API #7](https://github.com/Mottainai-One/Mottainai-Api-SQL-Operacional/pull/7) — CI pipeline.
 - [BI #5](https://github.com/Mottainai-One/Mottainai-BI/pull/5) — KPI and inventory decisions.
 
-Recheck each PR only after it closes. A closed PR is not automatically merged; use the resulting default-branch code and merge SHA as the source of truth. Also check any other newly opened PRs for the retained repositories before preparing deployment.
+Recheck each PR only after it closes. A closed PR is not automatically merged; use the resulting default-branch code and merge SHA as the source of truth. Also check any other newly opened PRs for retained repositories before preparing deployment.
 
 ## Release gates before AWS allocation
 

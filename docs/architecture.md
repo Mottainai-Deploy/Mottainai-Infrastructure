@@ -6,24 +6,28 @@
 - **GitHub Actions:** RPA schedules and CI where the current workflows satisfy the simulation.
 - **Databricks:** BI ETL and dashboard.
 - **Local Windows POS:** POS frontend and local backend run together on the store/demo machine.
-- **AWS:** only the minimum server-side APIs proven necessary by the November 6 user journey. Test and official accounts remain separate; publish the approved artifact to official and leave runtime stopped until the demonstration.
+- **AWS:** only the minimum web/API services proven necessary by the November 6 user journey. Test and official accounts remain separate; publish the approved artifact to official and leave runtime stopped until the demonstration.
 
 ## Service flow
 
 ```text
-Android clients ───────────────┐
-                               ├─> selected APIs ──> isolated data stores/providers
+Android clients ─────────────────────┐
+Admin web frontend (conditional) ────┼─> selected APIs ──> isolated data stores/providers
 Windows POS frontend -> local POS backend ──> operational API
 RPA (GitHub Actions) ───────────────────────> database synchronization
 BI (Databricks) <──────────────────────────── RPA/analytics data
 Motta Hub (Render) ── project coordination and evidence only
 ```
 
-This is a responsibility map, not an approved network design. Verify the actual demo path, APIs and database contracts against merged main branches before selecting AWS components. The admin web frontend on main is a mock-data prototype and is excluded from the live integrated path.
+PR #28 is merged and the frontend main branch now calls the operational API. Its Dockerfile builds a static SPA into Nginx on port 8080, with a documented `/healthz`. The Firebase and API values are frontend build configuration; verify the generated build against an isolated test service and a valid demo account. The panel deliberately hides unsupported features rather than using mock data. Confirm its exact route coverage before including it.
+
+The POS backend remains a loopback service paired with a Windows desktop app. PR #25 is merged, but PR #26 remains open, so do not use its unmerged login changes to claim the POS flow is ready.
+
+This is a responsibility map, not an approved network design. Verify actual API paths, authentication and data contracts against merged main branches before selecting AWS components.
 
 ## Cost and runtime constraints
 
-The two AWS Academy accounts each have US$50 total credit. This repository intentionally does not create compute, databases, networking or secrets. Academy service and region restrictions, account credits and quotas must be checked in the lab readme before a deployment design is selected.
+The two AWS Academy accounts each have US$50 total credit. This repository intentionally does not create compute, databases, networking or secrets. Academy service and region restrictions, account credits and quotas must be checked in the lab Readme before a deployment design is selected.
 
 Use the test account for experiments. Build once, validate the artifact and integrations in test, record its immutable image digest/revision, then publish that exact artifact to official. Do not run functional tests in official. Keep official runtime stopped until the event window and tear down chargeable test resources after the test session.
 
@@ -41,7 +45,7 @@ The current application dependencies include external PostgreSQL, MongoDB, Redis
 
 ## Decisions still required
 
-- Which exact journey must work on November 6: Android operations, customer mobile, Windows POS, AI, notifications, or a subset?
+- Which exact journey must work on November 6: admin web, Android operations, customer mobile, Windows POS, AI, notifications, or a subset?
 - Which API routes are actually called by each client in the merged revisions?
 - Are separate test and official databases already available, and who owns them?
 - Which AWS services, regions and instance types are allowed by this specific Learner Lab?
